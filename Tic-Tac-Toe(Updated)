@@ -1,0 +1,289 @@
+#include <iostream>
+#include <string>
+
+
+struct VarBoard {
+
+    char Boxes[3][3] = { {' ',' ',' '}, {' ',' ',' '}, {' ',' ',' '} };
+
+    int x = 0, y = 0;
+
+
+}VB;
+struct Player {
+
+    std::string P1 = "Player 1[X]: ";
+    std::string P2 = "Player 2[O]: ";
+
+    bool winner1 = false;
+   
+    char location = ' ';
+    bool flag = false;
+
+    int turn = 1;
+    char Value = ' ';
+
+}P;
+
+void Board1() {
+    system("cls");
+    std::cout << "\v";
+    std::cout << "\t\t   TIC-TAC-TOE" << std::endl;
+    std::cout << "\v";
+    std::cout << "\t\t  " << VB.Boxes[0][0] << "  |  " << VB.Boxes[0][1] << "  |  " << VB.Boxes[0][2] << "  " << std::endl;
+    std::cout << "\t\t-----------------" << std::endl;
+    std::cout << "\t\t  " << VB.Boxes[1][0] << "  |  " << VB.Boxes[1][1] << "  |  " << VB.Boxes[1][2] << "  " << std::endl;
+    std::cout << "\t\t-----------------" << std::endl;
+    std::cout << "\t\t  " << VB.Boxes[2][0] << "  |  " << VB.Boxes[2][1] << "  |  " << VB.Boxes[2][2] << "  " << std::endl;
+
+}
+
+void checkBoxes() {
+
+    if (P.turn == 1) {
+        if (VB.Boxes[VB.x][VB.y] == 'X' || VB.Boxes[VB.x][VB.y] == 'O') {
+            P.flag = false;
+        }
+        else {
+            VB.Boxes[VB.x][VB.y] = 'X';
+            P.flag = true;
+            P.turn++;
+        }
+    }
+    else {
+        if (VB.Boxes[VB.x][VB.y] == 'X' || VB.Boxes[VB.x][VB.y] == 'O') {
+            P.flag = false;
+        }
+        else {
+            VB.Boxes[VB.x][VB.y] = 'O';
+            P.flag = true;
+            P.turn--;
+        }
+    }
+
+}
+
+void Location() {
+    if (P.turn == 1) {
+        std::cout << "\v\t\tENTER LOCATION" << std::endl;
+        std::cout << "\t\t" << P.P1;
+        std::cin >> P.location;
+    }
+    if (P.turn == 2) {
+        std::cout << "\v\t\tENTER LOCATION" << std::endl;
+        std::cout << "\t\t" << P.P2;
+        std::cin >> P.location;
+    }
+
+    // check loop for check if empty, and if not do a loop from break maybe a bool true or false;
+
+    switch (P.location) {
+    case '1':
+        VB.x = 0;
+        VB.y = 0;
+        checkBoxes();
+        break;
+    case '2':
+        VB.x = 0;
+        VB.y = 1;
+        checkBoxes();
+        break;
+    case '3':
+        VB.x = 0;
+        VB.y = 2;
+        checkBoxes();
+        break;
+    case '4':
+        VB.x = 1;
+        VB.y = 0;
+        checkBoxes();
+        break;
+    case '5':
+        VB.x = 1;
+        VB.y = 1;
+        checkBoxes();
+        break;
+    case '6':
+        VB.x = 1;
+        VB.y = 2;
+        checkBoxes();
+        break;
+    case '7':
+        VB.x = 2;
+        VB.y = 0;
+        checkBoxes();
+        break;
+    case '8':
+        VB.x = 2;
+        VB.y = 1;
+        checkBoxes();
+        break;
+    case '9':
+        VB.x = 2;
+        VB.y = 2;
+        checkBoxes();
+        break;
+    }
+}
+
+/*
+void InputValue() {
+    if (P.turn == 1) {
+
+        do {
+            std::cout << "\t\t" << P.P1;
+            std::cin >> P.Value;
+        } while (P.Value == 'O');
+        VB.Boxes[VB.x][VB.y] = P.Value;
+
+        P.turn++;
+    }
+    else {
+        do {
+            std::cout << "\t\t" << P.P2;
+            std::cin >> P.Value;
+        } while (P.Value == 'X');
+        VB.Boxes[VB.x][VB.y] = P.Value;
+        P.turn--;
+    }
+}
+*/
+void checkWinner() {
+
+    if (VB.Boxes[0][0] == 'X' && VB.Boxes[0][1] == 'X' && VB.Boxes[0][2] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[1][0] == 'X' && VB.Boxes[1][1] == 'X' && VB.Boxes[1][2] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[2][0] == 'X' && VB.Boxes[2][1] == 'X' && VB.Boxes[2][2] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][0] == 'X' && VB.Boxes[1][0] == 'X' && VB.Boxes[2][0] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][1] == 'X' && VB.Boxes[1][1] == 'X' && VB.Boxes[2][1] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][2] == 'X' && VB.Boxes[1][2] == 'X' && VB.Boxes[2][2] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][2] == 'X' && VB.Boxes[1][1] == 'X' && VB.Boxes[2][0] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][0] == 'X' && VB.Boxes[1][1] == 'X' && VB.Boxes[2][2] == 'X') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 1 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][0] == 'O' && VB.Boxes[0][1] == 'O' && VB.Boxes[0][2] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[1][0] == 'O' && VB.Boxes[1][1] == 'O' && VB.Boxes[1][2] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "Player 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[2][0] == 'O' && VB.Boxes[2][1] == 'O' && VB.Boxes[2][2] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][0] == 'O' && VB.Boxes[1][0] == 'O' && VB.Boxes[2][0] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][1] == 'O' && VB.Boxes[1][1] == 'O' && VB.Boxes[2][1] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][2] == 'O' && VB.Boxes[1][2] == 'O' && VB.Boxes[2][2] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][2] == 'O' && VB.Boxes[1][1] == 'O' && VB.Boxes[2][0] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+    else if (VB.Boxes[0][0] == 'O' && VB.Boxes[1][1] == 'O' && VB.Boxes[2][2] == 'O') {
+        system("cls");
+        Board1();
+        std::cout << "\t\tPlayer 2 win";
+        P.winner1 = true;
+    }
+}
+void checkDraw() {
+
+    int count = 0;
+        for(int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++) {
+                if (VB.Boxes[i][j] == ' ') {
+                    P.winner1 = false;
+                    break;
+                }
+                else {
+                    P.winner1 = true;
+                    count++;
+                }
+            }
+        if (P.winner1 == false) {
+            break;
+        }
+        else if (count == 9) {
+            system("cls");
+            Board1();
+            std::cout << "\v\t\t     DRAW";
+            P.winner1 = true;
+            break;
+        }
+    }
+}
+
+int main() {
+    do {
+        do {
+            Board1();
+            Location();
+        } while (P.flag == false);
+        checkDraw();
+       // InputValue();
+        checkWinner();
+        
+    } while (P.winner1 == false);
+    return 0;
+}
