@@ -1,0 +1,181 @@
+#include <iostream>
+#include <ctime>
+#include <string>
+#include <algorithm>
+
+class AgeCalculator{
+
+public:
+    std::string birthDay;
+    std::string Months_1 = "", Day_1 = "", Year_1 = "";
+    int Age;
+
+    int currentYear;
+    int currentMonth;
+    int currentDay;
+
+void currentDate(){
+
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+    currentYear = 1900 + ltm->tm_year;
+    currentMonth = 1 + ltm->tm_mon;
+    currentDay = ltm->tm_mday;
+
+}
+
+void Assort_1(){
+
+    int size = birthDay.size();
+    for(int i = 0; i < size; i++){
+        if(birthDay[i] == ' '){
+            for(int j = i+1; j < size; j++){
+                if(birthDay[j] == ','){
+                        for(int k = j+1; k < size; k++){
+                            if(birthDay[k] == ' '){
+                                continue;
+                            }
+                            Year_1+=birthDay[k];
+                        }
+                    break;
+                }
+             Day_1+=birthDay[j];
+             }
+        break;
+        }
+        Months_1+=birthDay[i];
+    }
+}
+
+void Assort_2(){
+
+    int size = birthDay.size();
+    for(int i = 0; i < size; i++){
+        if(birthDay[0] == '0'){
+        continue;
+        }
+            if(birthDay[i] == '/'){
+                for(int j = i+1; j < size; j++){
+                    if(birthDay[0] == '0'){
+                    continue;
+                    }
+                        if(birthDay[j] == '/'){
+                            for(int k = j+1; k < size; k++){
+                                Year_1+=birthDay[k];
+                            }
+                    }
+                Day_1+=birthDay[j];
+                }
+            break;
+            }
+        Months_1+=birthDay[i];
+    }
+
+}
+
+int Converter2(int Mon){
+
+
+    if(Mon == currentMonth){
+        if(std::stoi(Day_1) == currentDay){
+            Age += 0;
+        }
+        else if(std::stoi(Day_1) > currentDay){
+            Age += 0;
+        }
+        else if( std::stoi(Day_1) < currentDay){
+            Age -= 1;
+        }
+    }
+
+    else if(currentMonth > Mon){
+        Age += 0;
+    }
+
+    else if(currentMonth < Mon){
+        Age -= 1;
+    }
+
+return Age;
+
+}
+
+int Converters1(){
+
+    std::string months_1[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    std::string months_2[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    int Months;
+    int counts  = 0;
+
+    if(isdigit(Months_1[0])){
+        Age = currentYear - std::stoi(Year_1);
+        Age = Converter2(Months);
+    }
+    else if (Months_1.size() > 3){
+        for(int i = 0; i < 12; i++){
+        if(Months_1 == months_1[i]){
+            Months = counts;
+            break;
+        }
+        counts++;
+        }
+        Age = currentYear - std::stoi(Year_1);
+        Age = Converter2(Months);
+    }
+    else if( Months_1.size() == 3){
+        for(int i = 0; i < 12; i++){
+        if(Months_1 == months_2[i]){
+            Months = counts;
+            break;
+        }
+        counts++;
+        }
+        Age = currentYear - std::stoi(Year_1);
+        Age = Converter2(Months);
+    }
+
+
+    return Age;
+}
+
+AgeCalculator(){
+
+    std::cout << "\t\tAge Calculator" << std::endl;
+    std::cout << std::endl;
+
+    currentDate();
+
+    std:: cout << "Month/Day/Year" << std::endl;
+    std::cout << "Birth Day: ";
+    std::getline(std::cin, birthDay);
+
+     auto it = std::find(birthDay.begin(), birthDay.end(), '/');
+
+        if (it != birthDay.end()) {
+
+        Assort_2();
+        std::cout << Months_1 << " " << Day_1 << ", " << Year_1 << std::endl;
+        Age = Converters1();
+        std::cout << Age << std::endl;
+        exit(0);
+        }
+
+        else {
+
+        Assort_1();
+        std::cout << Months_1 << " " << Day_1 << ", " << Year_1 << std::endl;
+        Age = Converters1();
+        std::cout << Age << std::endl;
+        exit(0);
+
+        }
+}
+};
+
+
+int main()
+{
+    AgeCalculator AC = AgeCalculator();
+
+    return 0;
+}
