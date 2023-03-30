@@ -1,0 +1,190 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <ctime>
+#include <cctype>
+
+struct date{
+
+int currentM, currentD, currentY;
+
+}d;
+
+
+class AgeCalculator{
+
+private:
+
+std::string birthDay = "";
+std::string month = "",day = "",year = "";
+
+int age = 0;
+
+public:
+
+void currentDate(){
+
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+    d.currentY = 1900 + ltm->tm_year;
+    d.currentM = 1 + ltm->tm_mon;
+    d.currentD = ltm->tm_mday;
+
+}
+
+void Assort_1(){
+
+for(int i = 0; i < birthDay.size(); i++){
+    if(birthDay[i]== '/' || birthDay[i] == '-'){
+        for(int j = i+1; j < birthDay.size(); j++){
+            if(birthDay[j]== '/' || birthDay[j] == '-'){
+               for(int k = j+1; k < birthDay.size(); k++){
+                year+=birthDay[k];
+                }
+            break;
+            }
+        day+=birthDay[j];
+        }
+    break;
+    }
+month+=birthDay[i];
+}
+std::cout << month << " " << day << " " << year;
+
+}
+
+void Assort_2(){
+
+    for(int i = 0; i < birthDay.size(); i++){
+        if(birthDay[i] == ' '){
+            for(int j = i+1 ; j < birthDay.size(); j++){
+                if(birthDay[j] == ','){
+                    for(int k = j+1; k < birthDay.size(); k++){
+                        if(birthDay[k] == ' '){
+                            continue;
+                        }
+                    year+=birthDay[k];
+                    }
+                    break;
+                }
+                day+=birthDay[j];
+            }
+            break;
+        }
+        month+=birthDay[i];
+    }
+}
+
+int InputMonthScanner(){
+
+    int x;
+    std::string months_1[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    std::string abbr_months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    if(month.size() > 3){
+        for(int i = 0; i < 12; i++){
+            if(month == months_1[i]){
+                 x = d.currentY - std::stoi(year);
+                 x = AgeConverter_2(x, i+1);
+                 break;
+            }
+        }
+    }
+    else if(month.size() == 3){
+        for(int i = 0; i < 12; i++){
+            if(month == abbr_months[i]){
+                 x = d.currentY - std::stoi(year);
+                 x = AgeConverter_2(x, (i+1));
+                 break;
+            }
+        }
+    }
+    return x;
+}
+int InputYearScanner (){
+int x;
+
+if(year.size() == 2){
+
+    if(std::stoi(year) < (d.currentY - 2000)){
+    x = d.currentY - (std::stoi(year)+2000);
+    }
+    else if(std::stoi(year) > (d.currentY - 2000)){
+    x = d.currentY - (std::stoi(year)+1900);
+    }
+}
+else if(year.size() == 4){
+    x = d.currentY - std::stoi(year);
+}
+
+return x;
+}
+
+int AgeConverter_1(int x){
+
+if(std::stoi(month) < d.currentM || (std::stoi(month) == d.currentM && std::stoi(day) > d.currentD)){
+x = x + 0;
+}
+
+else if(std::stoi(month) > d.currentM || (std::stoi(month) == d.currentM && std::stoi(day) < d.currentD)){
+x = x - 1;
+}
+
+
+return x;
+}
+
+int AgeConverter_2(int x, int y){
+
+if(y < d.currentM || (y == d.currentM && std::stoi(day) > d.currentD)){
+x = x + 0;
+}
+
+else if(y > d.currentM || (y == d.currentM && std::stoi(day) < d.currentD)){
+x = x - 1;
+}
+
+
+return x;
+
+}
+
+void resetVariables(){
+
+birthDay = "";
+month = "",day = "",year = "";
+age = 0;
+
+}
+AgeCalculator(){
+
+std::cout << "\tAge Calculator" << std::endl;
+std::cout << "Birthday: ";
+std::getline(std::cin, birthDay);
+
+currentDate();
+
+
+if(isdigit(birthDay[0])){
+
+    Assort_1();
+    age = InputYearScanner();
+    age = AgeConverter_1(age);
+
+}
+else{
+    Assort_2();
+    age = InputMonthScanner();
+}
+
+
+}
+
+};
+
+int main(){
+
+AgeCalculator AC = AgeCalculator();
+
+return 0;
+}
