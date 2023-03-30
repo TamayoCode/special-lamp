@@ -177,6 +177,7 @@ else{
     age = InputMonthScanner();
 }
 
+std::cout << "You are " << age << " years old." << std::endl;
 
 }
 
