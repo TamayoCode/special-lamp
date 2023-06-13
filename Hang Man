@@ -1,0 +1,118 @@
+#include<iostream>
+#include<string>
+#include <windows.h>
+
+
+struct Variables {
+
+    std::string Person[5] = { " ","O","|","-","^" };
+    std::string empty[4] = { " "," "," "," " };
+    int count = 0;
+
+    std::string guessWord = "";
+    char underScore[100] = {'0'};
+    size_t wordSize = 0;;
+
+    std::string Equal = "";
+    char guessLetter = '?';
+    int life = 5;
+
+    std::string winner = "";
+    bool flagWinner;
+    bool flagLose;
+    
+    std::string youWon = "You Lose";
+}var;
+
+void Draw() {
+    system("cls");
+    std::cout << "_______" << "     LIFE = " << var.life << std::endl;
+    std::cout << "| /   |" << std::endl;
+    std::cout << "|/    " << var.empty[0] << std::endl;
+    std::cout << "|.   " << var.empty[2] << var.empty[1] << var.empty[2] << std::endl;
+    std::cout << "|.    " << var.empty[3] << std::endl;
+    std::cout << "|.   " << std::endl;
+
+    for (int i = 0; i < var.wordSize; i++) {
+        std::cout << var.underScore[i] << " ";
+    }
+}
+
+void Input_Word() {
+
+    std::cout << "             HOST" << std::endl;
+    std::cout << "Enter A Word To Guess: ";
+    std::getline(std::cin, var.guessWord);
+
+    var.wordSize = var.guessWord.size();
+    for (size_t i = 0; i < var.wordSize; i++) {
+        var.underScore[i] = '_';
+    }
+
+}
+
+void Input_Letter() {
+    std::cout << std::endl;
+    std::cout << "Enter a Letter: ";
+    std::cin >> var.guessLetter;
+
+}
+
+
+void check_the_letter() {
+
+    int flag = 0;
+
+
+    for (size_t i = 0; i < var.wordSize; i++) {
+        if (var.guessLetter == var.guessWord[i]) {
+            var.underScore[i] = var.guessLetter;
+            flag++;
+        }
+    }
+    if (flag == 0) {
+        var.count++;
+        var.empty[var.count - 1] = var.Person[var.count];
+        var.life--;
+    }
+}
+
+void Check_Winner() {
+
+    for (size_t i = 0; i < var.wordSize; i++) {
+
+        if (var.life == 0) {
+            var.flagWinner = true;
+            break;
+        }
+
+        else if (var.guessWord[i] == var.underScore[i]) {
+            var.flagWinner = true;
+            continue;
+        }
+
+        else {
+            var.flagWinner = false;
+            break;
+        }
+    }
+
+}
+
+int main()
+{
+
+    Draw();
+    Input_Word();
+    Draw();
+
+        do {
+            Input_Letter();
+            check_the_letter();
+            Check_Winner();
+            Draw();
+            
+        } while (var.flagWinner == false);
+
+    return 0;
+}
